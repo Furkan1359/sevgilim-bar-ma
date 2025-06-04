@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barışma Uygulaması</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        #peace-message {
+            display: none;
+            font-size: 1.5rem;
+            color: #28a745;
+            margin-top: 20px;
+        }
+        #apology-message {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 30px;
+            padding: 0 20px;
+            border-top: 2px solid #ccc;
+            padding-top: 20px;
+        }
+        #share-button {
+            padding: 10px 20px;
+            margin-top: 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #share-button:hover {
+            background-color: #0056b3;
+        }
+        #question-section {
+            margin-top: 30px;
+        }
+        .answer-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+        .answer-evet {
+            background-color: #28a745;
+            color: white;
+        }
+        .answer-evet:hover {
+            background-color: #218838;
+        }
+        .answer-emin-degilim {
+            background-color: #ffc107;
+            color: black;
+        }
+        .answer-emin-degilim:hover {
+            background-color: #e0a800;
+        }
+        #answer-message {
+            font-size: 1.3rem;
+            color: #d63384;
+            margin-top: 20px;
+            display: none;
+        }
+        #think-section {
+            display: none;
+            margin-top: 20px;
+        }
+        #think-btn, #think-evet-btn, #beni-affet-btn, #son-affet-btn, #affet-son-btn, #beni-affeder-misin-btn {
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        #think-btn {
+            background-color: #ff69b4;
+            color: white;
+        }
+        #think-btn:hover {
+            background-color: #e75480;
+        }
+        #think-evet-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        #think-evet-btn:hover {
+            background-color: #218838;
+        }
+        #beni-affet-btn {
+            display: none;
+            background-color: #007bff;
+            color: white;
+        }
+        #beni-affet-btn:hover {
+            background-color: #0056b3;
+        }
+        #son-affet-btn {
+            display: none;
+            background-color: #ff6347;
+            color: white;
+        }
+        #son-affet-btn:hover {
+            background-color: #ff4500;
+        }
+        #affet-son-btn {
+            display: none;
+            background-color: #d63384;
+            color: white;
+        }
+        #affet-son-btn:hover {
+            background-color: #b82d6b;
+        }
+        #affet-final-box {
+            display: none;
+            margin-top: 18px;
+            max-width: 450px;
+        }
+        #affet-final-message {
+            font-size: 1.2rem;
+            color: #d63384;
+            background: #fff0f6;
+            border-radius: 10px;
+            padding: 18px 12px;
+            border: 2px solid #d63384;
+            display: inline-block;
+            vertical-align: middle;
+            max-width: 350px;
+        }
+        #beni-affeder-misin-btn {
+            display: none;
+            background-color: #ff9800;
+            color: white;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        #beni-affeder-misin-btn:hover {
+            background-color: #e65100;
+        }
+        #bitanem-final-message {
+            display: none;
+            font-size: 1.3rem;
+            color: #28a745;
+            margin-top: 20px;
+        }
+        #fullscreen-evet-container {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(255,255,255,0.97);
+            justify-content: center;
+            align-items: center;
+        }
+        #fullscreen-evet-btn {
+            padding: 36px 80px;
+            font-size: 2.5rem;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            box-shadow: 0 3px 24px 0 #b8e5c7;
+            transition: background 0.3s;
+        }
+        #fullscreen-evet-btn:hover {
+            background: #1e7e34;
+        }
+        @media (max-width: 600px) {
+            #affet-final-message {
+                font-size: 1rem;
+                max-width: 95vw;
+            }
+            #fullscreen-evet-btn {
+                padding: 24px 24px;
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Seni çok seviyorum güzelim, gerçekten çok pişmanım</h1>
+    
+    <p id="peace-message">Barıştık! 🎉 Her şey yolunda, seni seviyorum! 💖</p>
+
+    <div id="question-section">
+        <h2>Benimle barışmak istiyor musun?</h2>
+        <button class="answer-btn answer-evet" onclick="answerQuestion('evet')">Evet</button>
+        <button class="answer-btn answer-emin-degilim" onclick="answerQuestion('emin-degilim')">Emin Değilim</button>
+    </div>
+    <p id="answer-message"></p>
+    <div id="think-section">
+        <button id="think-btn" onclick="thinkLove()">Ama seni çok seviyorum, iyi düşün sevgilim</button>
+        <button id="think-evet-btn" onclick="thinkEvet()">Evet</button>
+        <button id="beni-affet-btn" onclick="beniAffet()">Aşkım gerçekten çok pişmanım lütfen beni affet</button>
+        <button id="son-affet-btn" onclick="sonAffet()">Sevgilim seni kırdığım için çok özür dilerim lütfen beni affet seni çok seviyorum</button>
+        <button id="affet-son-btn" onclick="affetSon()">Güzelim bu eşşek gerçekten pişman, ben sevgilimi böyle üzmek istemiyorum lütfen affet beni</button>
+    </div>
+    <p id="affet-message">Her şey daha güzel olacak, seni çok seviyorum! 💚</p>
+    <div id="affet-final-box">
+        <span id="affet-final-message">
+            Sevgilim güzelim bitanem gerçekten okadar haklısınki her anlamda ben gerçekten yaptıklarımdan pişmanım gerçekten çok üzgünüm senden binlerce kez özür dilerim sevgilim ben hatamın farkındayım lütfen beni affet sevgilim.
+        </span>
+        <button id="beni-affeder-misin-btn" onclick="fullscreenEvetCikar()">Beni affeder misin sevgilim ❤️</button>
+    </div>
+    <div id="bitanem-final-message">
+        Sonsuza kadar beraber olalım, seni çok seviyorum! 💖
+    </div>
+    
+    <div id="apology-message">
+        <h2>📝 Neden Özür Diliyorum?</h2>
+        <p>Sevgilim, seni üzdüğüm için gerçekten çok üzgünüm. Hiçbir zaman senin kalbini kırmak istememiştim. Umarım, bu küçük jestim sana olan sevgimi ve pişmanlığımı gösterebilir. Lütfen beni affet. 💖</p>
+    </div>
+
+    <button id="share-button" onclick="sharePage()">Bu Sayfayı Paylaş</button>
+
+    <!-- Tam ekran Evet butonu -->
+    <div id="fullscreen-evet-container">
+        <button id="fullscreen-evet-btn" onclick="fullscreenEvetKapat()">❤️ Seni çok seviyorum sevgilim ❤️</button>
+    </div>
+
+    <script>
+        function answerQuestion(answer) {
+            let msg = '';
+            if (answer === 'evet') {
+                msg = '❤️ Seni çok seviyorum sevgilim ❤️';
+                document.getElementById('think-section').style.display = 'none';
+            } else if (answer === 'emin-degilim') {
+                msg = 'Olsun, yine de seni seviyorum ve bekleyeceğim. 💛';
+                document.getElementById('think-section').style.display = 'block';
+            }
+            document.getElementById('answer-message').innerText = msg;
+            document.getElementById('answer-message').style.display = 'block';
+            document.getElementById('question-section').style.display = 'none';
+            document.getElementById('affet-message').style.display = 'none';
+            document.getElementById('beni-affet-btn').style.display = 'none';
+            document.getElementById('son-affet-btn').style.display = 'none';
+            document.getElementById('affet-son-btn').style.display = 'none';
+            document.getElementById('affet-final-box').style.display = 'none';
+            document.getElementById('bitanem-final-message').style.display = 'none';
+        }
+        function thinkLove() {
+            document.getElementById('think-btn').style.display = 'none';
+            document.getElementById('beni-affet-btn').style.display = 'inline-block';
+            document.getElementById('affet-message').style.display = 'none';
+            document.getElementById('son-affet-btn').style.display = 'none';
+            document.getElementById('affet-son-btn').style.display = 'none';
+            document.getElementById('affet-final-box').style.display = 'none';
+            document.getElementById('bitanem-final-message').style.display = 'none';
+        }
+        function thinkEvet() {
+            document.getElementById('think-section').style.display = 'none';
+            document.getElementById('affet-message').style.display = 'none';
+            document.getElementById('affet-final-box').style.display = 'none';
+            document.getElementById('bitanem-final-message').style.display = 'none';
+            document.getElementById('answer-message').innerText = '❤️ Seni çok seviyorum sevgilim ❤️';
+            document.getElementById('answer-message').style.display = 'block';
+        }
+        function beniAffet() {
+            document.getElementById('beni-affet-btn').style.display = 'none';
+            document.getElementById('son-affet-btn').style.display = 'inline-block';
+            document.getElementById('affet-son-btn').style.display = 'none';
+            document.getElementById('affet-message').style.display = 'none';
+            document.getElementById('affet-final-box').style.display = 'none';
+            document.getElementById('bitanem-final-message').style.display = 'none';
+        }
+        function sonAffet() {
+            document.getElementById('son-affet-btn').style.display = 'none';
+            document.getElementById('affet-son-btn').style.display = 'inline-block';
+            document.getElementById('affet-message').style.display = 'none';
+            document.getElementById('affet-final-box').style.display = 'none';
+            document.getElementById('bitanem-final-message').style.display = 'none';
+        }
+        function affetSon() {
+            document.getElementById('affet-son-btn').style.display = 'none';
+            document.getElementById('affet-message').style.display = 'none';
+            document.getElementById('affet-final-box').style.display = 'inline-block';
+            document.getElementById('beni-affeder-misin-btn').style.display = 'inline-block';
+            document.getElementById('bitanem-final-message').style.display = 'none';
+        }
+
+        // Yeni: Tam ekran Evet butonu çıkar
+        function fullscreenEvetCikar() {
+            document.getElementById('affet-final-box').style.display = 'none';
+            document.getElementById('fullscreen-evet-container').style.display = 'flex';
+        }
+        // Yeni: Tam ekran Evet butonu kapatınca final mesajı göster
+        function fullscreenEvetKapat() {
+            document.getElementById('fullscreen-evet-container').style.display = 'none';
+            document.getElementById('bitanem-final-message').style.display = 'block';
+        }
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Barışma Uygulaması',
+                    text: 'Sevgilimle barışmak için yaptığım bir uygulama.',
+                    url: window.location.href
+                }).catch((error) => console.log('Error sharing:', error));
+            } else {
+                alert("Paylaşım özelliği tarayıcınızda desteklenmiyor.");
+            }
+        }
+    </script>
+</body>
+</html>
